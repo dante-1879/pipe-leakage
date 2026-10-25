@@ -1,0 +1,11 @@
+# Water Distribution Pipeline Simulation Suite Requirements
+# Compatible with Python 3.10, 3.11, 3.12, and 3.14 (with scripts/patch_tsnet.py applied)
+
+wntr>=1.5.0             # Water Network Tool for Resilience (EPANET hydraulic solver)
+tsnet>=0.3.1            # Transient Simulation in Water Networks (Method of Characteristics MOC)
+numpy>=1.26.0           # Numerical computing and array manipulation
+pandas>=2.2.0           # Data manipulation and time-series export
+scipy>=1.13.0           # Scientific computing and signal processing
+matplotlib>=3.8.0       # Static plotting and wavefront visualization
+plotly>=5.20.0          # Interactive HTML dashboards and high-speed WebGL charts
+networkx>=3.2.0         # Graph and network topology modeling

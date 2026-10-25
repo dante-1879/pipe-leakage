@@ -1,0 +1,107 @@
+
+; Topology: Straight 1-inch main with 1, 2, and 1 branches at respective nodes
+; Head: 1.5 ft (0.4572 m) 
+; Units: LPS, lengths in meters, diameters in mm
+
+[TITLE]
+Pipeline
+
+[JUNCTIONS]
+;ID              Elevation    Demand    Pattern
+ J1              0            0
+ M12             0            0
+ J2              0            0
+ M23             0            0
+ J3              0            0
+ OUT_1A          0            0
+ OUT_2A          0            0
+ OUT_2B          0            0
+ OUT_3A          0            0
+
+[RESERVOIRS]
+;ID              Head         Pattern
+ R_MAIN          0.4572       ; 1.5 ft head for the tabletop setup
+ TANK_1A         0.0
+ TANK_2A         0.0
+ TANK_2B         0.0
+ TANK_3A         0.0
+
+[PIPES]
+;ID       Node1      Node2      Length    Diam   Rough   MinorLoss   Status
+; Mainline Section 1 (J1 to J2) with Midpoint M12
+ P_MAIN2A J1         M12        0.2286    25.4   130     0           Open
+ P_MAIN2B M12        J2         0.2286    25.4   130     0           Open
+
+; Mainline Section 2 (J2 to J3) with Midpoint M23
+ P_MAIN3A J2         M23        0.2286    25.4   130     0           Open
+ P_MAIN3B M23        J3         0.2286    25.4   130     0           Open
+ 
+ ; Branch 1 (at 1.5 ft mark) - ONE PIPE (Up)
+ P_B1A    J1         OUT_1A     0.3048    12.7   130     0           Open
+ P_TANK1A OUT_1A     TANK_1A    0.3048    12.7   130     0           Open
+ 
+ ; Branch 2 (at 3.0 ft mark) - TWO PIPES (Up and Down)
+ P_B2A    J2         OUT_2A     0.3048    12.7   130     0           Open
+ P_TANK2A OUT_2A     TANK_2A    0.3048    12.7   130     0           Open
+ P_B2B    J2         OUT_2B     0.3048    12.7   130     0           Open
+ P_TANK2B OUT_2B     TANK_2B    0.3048    12.7   130     0           Open
+ 
+ ; Branch 3 (at 4.5 ft mark) - ONE PIPE (Up)
+ P_B3A    J3         OUT_3A     0.3048    12.7   130     0           Open
+ P_TANK3A OUT_3A     TANK_3A    0.3048    12.7   130     0           Open
+
+[VALVES]
+;ID       Node1      Node2      Diameter    Type    Setting    MinorLoss
+ V_MAIN   R_MAIN     J1         25.4        TCV     1.0        0
+
+[STATUS]
+;ID       Setting
+ V_MAIN   Closed   ; Valve is initially closed
+
+[CONTROLS]
+; Open the valve at 5 minutes (0.08333 hours), close at 15 minutes (0.25 hours)
+ LINK V_MAIN OPEN AT TIME 0.08333
+ LINK V_MAIN CLOSED AT TIME 0.25
+
+
+[TIMES]
+DURATION             00:30:00
+HYDRAULIC TIMESTEP   00:01:00
+REPORT TIMESTEP      00:01:00
+START CLOCKTIME      12:00 AM
+STATISTIC            NONE
+
+[OPTIONS]
+UNITS                LPS
+HEADLOSS             H-W
+SPECIFIC GRAVITY     1
+VISCOSITY            1
+TRIALS               100
+ACCURACY             0.0001
+UNBALANCED           CONTINUE 10
+EMITTER EXPONENT     0.5
+
+[COORDINATES]
+;Node      X-Coord    Y-Coord
+R_MAIN            0.000000           0.000000
+J1                0.457200           0.000000
+M12               0.685800           0.000000
+J2                0.914400           0.000000
+M23               1.143000           0.000000
+J3                1.371600           0.000000
+
+; Branch 1 (Up only)
+OUT_1A            0.457200           0.304800
+TANK_1A           0.457200           0.609600
+
+; Branch 2 (Up and Down)
+OUT_2A            0.914400           0.304800
+TANK_2A           0.914400           0.609600
+OUT_2B            0.914400          -0.304800
+TANK_2B           0.914400          -0.609600
+
+; Branch 3 (Up only)
+OUT_3A            1.371600           0.304800
+TANK_3A           1.371600           0.609600
+
+[END]
